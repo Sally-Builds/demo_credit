@@ -7,6 +7,9 @@ class WalletService {
         Event.subscribe('userCreated', this.create)
         Event.subscribe('creditedTransaction', this.increaseBalance)
         Event.subscribe('withdrawnTransaction', this.decreaseBalance)
+
+        Event.subscribe('transferredTransaction', this.decreaseBalance)
+        Event.subscribe('transferredTransaction', this.increaseBalance)
     }
 
 
@@ -35,14 +38,14 @@ class WalletService {
         try {
             const walletDB = new Wallet()
             //get the balance from the db
-            const previousBalance = await walletDB.getBalance(data.wallet_id)
+            const previousBalance = await walletDB.getBalance(data.credit_wallet)
 
             //do the math
             const newBalance = (previousBalance as number) + data.amount
             console.log(newBalance)
 
             //update balance
-            await walletDB.updateBalance(data.wallet_id, newBalance)
+            await walletDB.updateBalance(data.credit_wallet, newBalance)
             return 'successful'
         } catch (error:any) {
             console.log(error)
@@ -54,14 +57,14 @@ class WalletService {
         try {
             const walletDB = new Wallet()
             //get the balance from the db
-            const previousBalance = await walletDB.getBalance(data.wallet_id)
+            const previousBalance = await walletDB.getBalance(data.debit_wallet)
 
             //do the math
             const newBalance = (previousBalance as number) - data.amount
             console.log(newBalance)
 
             //update balance
-            await walletDB.updateBalance(data.wallet_id, newBalance)
+            await walletDB.updateBalance(data.debit_wallet, newBalance)
             return 'successful'
         } catch (error:any) {
             console.log(error)

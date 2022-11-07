@@ -26,7 +26,7 @@ class WithdrawService {
 
             const transaction: Omit<Withdraw, "id"> = {
                 date: new Date(),
-                transaction_type: 'credit',
+                transaction_type: 'withdraw',
                 reference_id: `${Date.now() + user_id.split("-")[4]}`,
                 amount,
                 debit_wallet, 
@@ -34,7 +34,7 @@ class WithdrawService {
                 bank_account_no,
             }
             const withdrawTX = await this.withdrawDB.create(transaction)
-            Event.publish('withdrawnTransaction', {amount: (withdrawTX as Withdraw).amount, wallet_id: debit_wallet})
+            Event.publish('withdrawnTransaction', {amount: (withdrawTX as Withdraw).amount,  debit_wallet})
             return (withdrawTX as Withdraw)
             
         } catch (error:any) {

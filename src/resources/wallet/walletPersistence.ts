@@ -20,6 +20,20 @@ export class WalletDB {
         }
     }
 
+    async getWallet(account_no: string): Promise<Wallet | void> {
+        try {
+            const result = await db('wallets').where('account_no', account_no).select('*')
+
+            if(result.length <= 0) {
+                throw new Error('something went wrong')
+            }
+            return result[0]
+        } catch (error:any) {
+            console.log(error)
+            throw new Error(error)
+        }
+    }
+
     async getBalance(account_no: string): Promise<number | void> {
         try {
             const data = await db('wallets').where('account_no', account_no).select('balance')

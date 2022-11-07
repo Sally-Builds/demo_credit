@@ -23,7 +23,7 @@ class CreditService {
                 credit_wallet, 
             }
             const creditTx = await this.creditDB.create(transaction)
-            Event.publish('creditedTransaction', {amount: (creditTx as Credit).amount, wallet_id: credit_wallet})
+            Event.publish('creditedTransaction', {amount: (creditTx as Credit).amount, credit_wallet})
             return (creditTx as Credit)
             
         } catch (error:any) {
