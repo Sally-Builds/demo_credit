@@ -23,8 +23,8 @@ export default class WithdrawController implements Controller {
 
     private create = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
         try {
-            const {amount, bank_name, account_number} = (req.body as Withdraw)
-            const data = await this.withdrawService.create(amount, bank_name, account_number, req.user.id)
+            const {amount, bank_name, bank_account_no} = (req.body as Withdraw)
+            const data = await this.withdrawService.create(amount, bank_name, bank_account_no, req.user.id)
 
             res.status(201).json({
                 status: 'success',

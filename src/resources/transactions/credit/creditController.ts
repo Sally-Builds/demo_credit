@@ -23,7 +23,6 @@ export default class CreditController implements Controller {
 
     private create = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
         try {
-            console.log(req.user.id, req.body.amount)
             const data = await this.creditService.create(req.body.amount, req.user.id)
 
             res.status(201).json({

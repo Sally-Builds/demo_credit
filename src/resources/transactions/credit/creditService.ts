@@ -10,7 +10,7 @@ class CreditService {
     public async create (amount: number, user_id: string): Promise<Credit | Error> {
         try {  
             //get wallet id of the user
-            const credit_wallet = await new WalletDB().getId(user_id)
+            const credit_wallet = await new WalletDB().getAccountNo(user_id)
 
             if(!credit_wallet) {
                 throw new Error('something went wrong')

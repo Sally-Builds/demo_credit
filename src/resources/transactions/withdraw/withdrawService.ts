@@ -8,11 +8,11 @@ class WithdrawService {
     public withdrawDB = new WithdrawDB()
     
 
-    public async create (amount: number, bank_name: string, account_number: number, user_id: string): Promise<Withdraw | Error> {
+    public async create (amount: number, bank_name: string, bank_account_no: number, user_id: string): Promise<Withdraw | Error> {
         try {  
             const walletDB = new WalletDB()
             //get wallet id of the user
-            const debit_wallet = await walletDB.getId(user_id)
+            const debit_wallet = await walletDB.getAccountNo(user_id)
 
             if(!debit_wallet) {
                 throw new Error('something went wrong')
@@ -31,7 +31,7 @@ class WithdrawService {
                 amount,
                 debit_wallet, 
                 bank_name,
-                account_number,
+                bank_account_no,
             }
             const withdrawTX = await this.withdrawDB.create(transaction)
             Event.publish('withdrawnTransaction', {amount: (withdrawTX as Withdraw).amount, wallet_id: debit_wallet})

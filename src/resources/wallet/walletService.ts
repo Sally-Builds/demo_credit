@@ -15,7 +15,7 @@ class WalletService {
             const walletCred = {
                 balance: 0,
                 user_id: user_id,
-                account_id: WalletService.generateAccountId()
+                account_no: WalletService.generateAccountId()
             }
             const walletDB = new Wallet()
             const walletInfo = walletDB.create(walletCred)

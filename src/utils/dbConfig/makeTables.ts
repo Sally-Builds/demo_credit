@@ -29,7 +29,7 @@ const createWalletsTable = async () => {
                 table.uuid("id").primary().defaultTo(db.raw("(UUID())"))
                 table.uuid("user_id")
                 table.float('balance')
-                table.string('account_id')
+                table.string('account_no').unique()
                 table.foreign('user_id').references('users.id')
             }).then(() => {
                 console.log('Wallets table created successfully')
@@ -54,10 +54,10 @@ const createTransactionTable = async () => {
                 table.string('bank_name')
                 table.uuid('credit_wallet').nullable()
                 table.uuid('debit_wallet').nullable()
-                table.string('account_number').nullable()
+                table.string('bank_account_no').nullable()
             
-                table.foreign('credit_wallet').references('wallets.id')
-                table.foreign('debit_wallet').references('wallets.id')
+                table.foreign('credit_wallet').references('wallets.account_no')
+                table.foreign('debit_wallet').references('wallets.account_no')
             }).then(() => {
                 console.log('Transactions table created successfully')
             })
