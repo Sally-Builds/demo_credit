@@ -1,28 +1,66 @@
 import { WalletDB } from "./walletPersistence";
-import Wallet from "./walletInterface";
 import { Event } from "@/utils/events";
+import Wallet from "./walletInterface";
 
 class WalletService {
-    public walletDB;
     constructor() {
-         this.walletDB = new WalletDB()
-        Event.subscribe('userCreated', this)
+        Event.subscribe('userCreated', this.create)
+        Event.subscribe('creditedTransaction', this.increaseBalance)
+        Event.subscribe('withdrawnTransaction', this.decreaseBalance)
     }
 
 
-    public async execute (user_id: string): Promise<string | Error> {
+    public async create (user_id: string, Wallet = WalletDB): Promise<string | Error> {
         try {  
-            const wallet = {
+            const walletCred = {
                 balance: 0,
                 user_id: user_id
             }
-            const walletInfo = this.walletDB.create(wallet)
-
+            const walletDB = new Wallet()
+            const walletInfo = walletDB.create(walletCred)
             return `created successfully - ${walletInfo}`
             
         } catch (error:any) {
             console.log(error)
                 throw new Error(error)
+        }
+    }
+
+    public async increaseBalance(data: any, Wallet = WalletDB): Promise<string | Error> {
+        try {
+            const walletDB = new Wallet()
+            //get the balance from the db
+            const previousBalance = await walletDB.getBalance(data.wallet_id)
+
+            //do the math
+            const newBalance = (previousBalance as number) + data.amount
+            console.log(newBalance)
+
+            //update balance
+            await walletDB.updateBalance(data.wallet_id, newBalance)
+            return 'successful'
+        } catch (error:any) {
+            console.log(error)
+            throw new Error(error)
+        }
+    }
+
+    public async decreaseBalance(data: any, Wallet = WalletDB): Promise<string | Error> {
+        try {
+            const walletDB = new Wallet()
+            //get the balance from the db
+            const previousBalance = await walletDB.getBalance(data.wallet_id)
+
+            //do the math
+            const newBalance = (previousBalance as number) - data.amount
+            console.log(newBalance)
+
+            //update balance
+            await walletDB.updateBalance(data.wallet_id, newBalance)
+            return 'successful'
+        } catch (error:any) {
+            console.log(error)
+            throw new Error(error)
         }
     }
 }

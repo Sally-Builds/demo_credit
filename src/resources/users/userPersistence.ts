@@ -21,4 +21,13 @@ export default class UserDB {
         const user = await db('users').whereRaw('email = ?', email)
         return user[0];
     }
+
+    public async getById(id: string): Promise<User | void> {
+        try {
+            const user = await db('users').whereRaw('id = ?', id)
+            return user[0];
+        } catch (error) {
+            null
+        }
+    }
 }

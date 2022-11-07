@@ -53,7 +53,7 @@ const createTransactionTable = async () => {
                 table.string('bank_name')
                 table.uuid('credit_wallet').nullable()
                 table.uuid('debit_wallet').nullable()
-                table.integer('account_number').nullable()
+                table.string('account_number').nullable()
             
                 table.foreign('credit_wallet').references('wallets.id')
                 table.foreign('debit_wallet').references('wallets.id')
