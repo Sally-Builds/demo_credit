@@ -15,7 +15,7 @@ class WalletService {
             const walletCred = {
                 balance: 0,
                 user_id: user_id,
-                account_id: this.generateAccountId()
+                account_id: WalletService.generateAccountId()
             }
             const walletDB = new Wallet()
             const walletInfo = walletDB.create(walletCred)
@@ -27,8 +27,8 @@ class WalletService {
         }
     }
 
-    private generateAccountId(): string {
-        return `${Math.floor(100000 + Math.random() * 900000)}`
+    static generateAccountId(): string {
+        return `${Math.floor(1000000000 + Math.random() * 9000000000)}`
     }
 
     public async increaseBalance(data: any, Wallet = WalletDB): Promise<string | Error> {
