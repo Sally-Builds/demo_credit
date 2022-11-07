@@ -3,7 +3,6 @@ import AuthCredentials from "@/utils/interfaces/authCredential.interface";
 import {createToken} from '@/utils/token'
 import bcrypt from 'bcryptjs'
 import UserDB from "./userPersistence";
-import HttpException from "@/utils/exceptions/httpExceptions";
 
 class UserService {
 
@@ -14,7 +13,7 @@ class UserService {
      * @param user - user data
      * @returns - newly created user
      */
-    public async create (user: User): Promise<AuthCredentials | HttpException> {
+    public async create (user: User): Promise<AuthCredentials | Error> {
         try {
             //hash user password
             user.password = await bcrypt.hash(user.password, 10)
