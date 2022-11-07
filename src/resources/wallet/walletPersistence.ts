@@ -9,6 +9,10 @@ export class WalletDB {
     async getId(user_id: string): Promise<string | void> {
         try {
             const wallet_id = await db('wallets').where('user_id', user_id).select('id')
+            console.log(wallet_id, 'persist')
+            if(wallet_id.length <= 0) {
+                throw new Error('something went wrong')
+            }
             return wallet_id[0].id
         } catch (error:any) {
             console.log(error)
