@@ -6,7 +6,7 @@ export namespace Event {
         console.log(`PUBSUB: Making an broadcast about ${eventName} with ${data}`);
         if (events[eventName]) {
             events[eventName].forEach(async (fn:any) => {
-              fn.save(data);
+              fn.execute(data);
             });
           }
     }

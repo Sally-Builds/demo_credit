@@ -5,15 +5,16 @@ const createUsersTable = async () => {
         const exists = await db.schema.hasTable('users')
 
         if(!exists) {
-            db.schema.createTable('users', (table) => {
+        await db.schema.createTable('users', (table) => {
                 table.uuid("id").primary().defaultTo(db.raw("(UUID())"));
                 table.string("name")
                 table.string('email').unique()
                 table.string('password')
                 table.enum('role', ["lender", "borrower"])
+            }).then(() => {
+                console.log('users table created successfully')
             })
         }
-        console.log('users table created successfully')
     } catch (error) {
         console.log(error)
     }
@@ -24,14 +25,15 @@ const createWalletsTable = async () => {
         const exists = await db.schema.hasTable('wallets')
 
         if(!exists) {
-            db.schema.createTable('wallets', (table) => {
+            await db.schema.createTable('wallets', (table) => {
                 table.uuid("id").primary().defaultTo(db.raw("(UUID())"))
                 table.uuid("user_id")
                 table.float('balance')
                 table.foreign('user_id').references('users.id')
+            }).then(() => {
+                console.log('Wallets table created successfully')
             })
         }
-        console.log('Wallets table created successfully')
     } catch (error) {
         console.log(error)
     }
@@ -39,10 +41,10 @@ const createWalletsTable = async () => {
 
 const createTransactionTable = async () => {
     try {
-        const exists = await db.schema.hasTable('wallets')
+        const exists = await db.schema.hasTable('transactions')
 
         if(!exists) {
-            db.schema.createTable('transactions', (table) => {
+            await db.schema.createTable('transactions', (table) => {
                 table.uuid("id").primary().defaultTo(db.raw("(UUID())"))
                 table.string("reference_id")
                 table.date('date')
@@ -55,9 +57,10 @@ const createTransactionTable = async () => {
             
                 table.foreign('credit_wallet').references('wallets.id')
                 table.foreign('debit_wallet').references('wallets.id')
+            }).then(() => {
+                console.log('Transactions table created successfully')
             })
         }
-        console.log('Transactions table created successfully')
     } catch (error) {
         console.log(error)
         

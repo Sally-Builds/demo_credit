@@ -5,9 +5,11 @@ import App from './app';
 
 // controller imports below
 import UserController from './resources/users/userController';
+import WalletService from './resources/wallet/walletService';
 
 // validateEnv();
 
+new WalletService()
 const app = new App(
     [
         new UserController(),

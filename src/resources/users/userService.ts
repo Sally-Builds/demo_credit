@@ -3,6 +3,7 @@ import AuthCredentials from "@/utils/interfaces/authCredential.interface";
 import {createToken} from '@/utils/token'
 import bcrypt from 'bcryptjs'
 import UserDB from "./userPersistence";
+import { Event } from "@/utils/events";
 
 class UserService {
 
@@ -21,7 +22,7 @@ class UserService {
             const newUser = await (this as any).userDB.insert(user)
             newUser.password = undefined
 
-            console.log(newUser)
+            Event.publish('userCreated', newUser.id)
 
             const token = createToken(newUser)
 

@@ -29,7 +29,6 @@ class UserController implements Controller {
 
     private signup = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
         try {
-            console.log(req.body)
             const {user, token}:any = await this.userService.create(req.body)
 
             res.status(201).json({
