@@ -20,7 +20,7 @@ class App {
         this.initializeMiddleware();
         this.initializeControllers(controllers);
         this.initializeDB();
-        // this.intializeErrorHandler();
+        this.intializeErrorHandler();
     }
 
     private initializeMiddleware() {
@@ -40,9 +40,9 @@ class App {
         });
     }
 
-    // private intializeErrorHandler() {
-    //     this.app.use(ErrorMiddleware);
-    // }
+    private intializeErrorHandler() {
+        this.app.use(ErrorMiddleware);
+    }
 
     private initializeDB() {
         makeTable().then(() => {

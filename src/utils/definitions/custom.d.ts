@@ -1,8 +1,8 @@
-import Organization from '@/resources/organization/organization.interface';
+import User from '@/resources/users/userInterface'
 declare global {
     namespace Express {
         export interface Request {
-            organization: Organization
+            user: User
         }
     }
 }

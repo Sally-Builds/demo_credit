@@ -1,7 +1,7 @@
-// import Token from "./token.interface";
-// import Organization from "@/resources/organization/organization.interface";
+import Token from "./token.interface";
+import User from "@/resources/users/userInterface";
 
-// export default interface AuthCredentials {
-//     token: string,
-//     organization: Organization
-// }
+export default interface AuthCredentials {
+    token: string,
+    user: User
+}

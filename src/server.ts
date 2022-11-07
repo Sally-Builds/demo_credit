@@ -4,13 +4,13 @@ import 'module-alias/register';
 import App from './app';
 
 // controller imports below
-// import UserController from '@/resources/user/user.controller';
+import UserController from './resources/users/userController';
 
 // validateEnv();
 
 const app = new App(
     [
-        // new UserController(),
+        new UserController(),
     ],
     Number(3000)
 );
