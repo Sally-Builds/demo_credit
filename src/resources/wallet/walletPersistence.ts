@@ -18,7 +18,6 @@ export class WalletDB {
 
     async getBalance(wallet_id: string): Promise<number | void> {
         try {
-            console.log(wallet_id)
             const data = await db('wallets').where('id', wallet_id).select('balance')
             return data[0].balance
         } catch (error:any) {

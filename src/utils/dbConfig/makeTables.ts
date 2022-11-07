@@ -29,6 +29,7 @@ const createWalletsTable = async () => {
                 table.uuid("id").primary().defaultTo(db.raw("(UUID())"))
                 table.uuid("user_id")
                 table.float('balance')
+                table.string('account_id')
                 table.foreign('user_id').references('users.id')
             }).then(() => {
                 console.log('Wallets table created successfully')
