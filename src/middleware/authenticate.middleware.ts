@@ -25,6 +25,8 @@ async function authenticate (req:Request, res:Response, next:NextFunction): Prom
             return next(new HttpException('Unauthorized access', 401))
         }
 
+        user.password = (undefined as any)
+
         req.user = user
         next()
 
