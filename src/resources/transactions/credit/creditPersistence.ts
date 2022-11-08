@@ -20,4 +20,13 @@ export class CreditDB {
             throw new Error(error)
         }
     }
+
+    async getAllTx(account_no: string): Promise<Credit[] | void> {
+        try {
+            const txs = await db('transactions').where({credit_wallet:account_no, transaction_type: 'credit'})
+            return txs
+        } catch (error:any) {
+            throw new Error(error)
+        }
+    }
 }

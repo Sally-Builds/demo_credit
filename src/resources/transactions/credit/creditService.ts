@@ -31,6 +31,22 @@ class CreditService {
                 throw new Error(error)
         }
     }
+
+
+    public async getAll (user_id: string): Promise<Credit[] | Error> {
+        try {
+            //get wallet account no
+            const account_no = await new WalletDB().getAccountNo(user_id)
+
+            // query of a credit with account no
+            const creditTxs = await this.creditDB.getAllTx((account_no as string))
+
+            //return result
+            return (creditTxs as Credit[])
+        } catch (error:any) {
+            throw new Error(error)
+        }
+    }
 }
 
 export default CreditService

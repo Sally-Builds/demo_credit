@@ -19,6 +19,8 @@ export default class CreditController implements Controller {
 
     private initializeRouter(){
         this.router.post(`${this.path}/credit`, authenticate, validationMiddleware(validate.create),  this.create)
+
+        this.router.get(`${this.path}/credit`, authenticate,  this.getAllCreditTransactions)
     }
 
     private create = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
@@ -28,6 +30,21 @@ export default class CreditController implements Controller {
             res.status(201).json({
                 status: 'success',
                 data: data,
+            })
+        } catch (error:any) {
+           next(new HttpException(error.message, error.statusCode))
+        }
+    }
+
+    private getAllCreditTransactions = async(req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+        try {
+
+            const data = await this.creditService.getAll(req.user.id)
+
+            res.status(201).json({
+                status: 'success',
+                result: (data as Credit[]).length,
+                credit_transactions: data,
             })
         } catch (error:any) {
            next(new HttpException(error.message, error.statusCode))
