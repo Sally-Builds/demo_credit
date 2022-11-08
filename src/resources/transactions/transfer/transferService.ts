@@ -2,6 +2,7 @@ import { Event } from "@/utils/events";
 import { TransferDB } from "./transferPersistence";
 import Transfer from "./transferInterface";
 import { WalletDB } from "@/resources/wallet/walletPersistence";
+import HttpException from "@/utils/exceptions/httpExceptions";
 
 class TransferService {
     
@@ -16,23 +17,23 @@ class TransferService {
 
             //check if debit account no exist
             if(!debit_wallet) {
-                throw new Error('something went wrong')
+                throw new HttpException("Something went wrong", 500)
             }
 
             //check if credit acc no exist
             if(!(await walletDB.getWallet(credit_wallet))) {
-                throw new Error("Account number does not exist")
+                throw new HttpException("Account number does not exist", 400)
             }
 
             //prevent user from crediting his own account
             if(credit_wallet == debit_wallet) {
-                throw new Error('You cannot transfer to your account')
+                throw new HttpException("You cannot transfer to your account", 400)
             }
 
             //check if balance is sufficient
             const previousBalance = await walletDB.getBalance(debit_wallet)
             if(amount > previousBalance) {
-                throw new Error('Insufficient funds!')
+                throw new HttpException("Insufficient funds!", 400)
             }
 
             const transaction: Omit<Transfer, "id"> = {
@@ -48,8 +49,7 @@ class TransferService {
             return (transferTx as Transfer)
             
         } catch (error:any) {
-            console.log(error)
-                throw new Error(error)
+                throw new HttpException(error.message, error.statusCode);
         }
     }
 
@@ -64,7 +64,7 @@ class TransferService {
             //return result
             return (withdrawTxs as Transfer[])
         } catch (error:any) {
-            throw new Error(error)
+                throw new HttpException('Something went wrong', 500);
         }
     }
 }
