@@ -20,4 +20,13 @@ export class WithdrawDB {
             throw new Error(error)
         }
     }
+
+    async getAllTx(account_no: string): Promise<Withdraw[] | void> {
+        try {
+            const txs = await db('transactions').where({debit_wallet:account_no, transaction_type: 'withdraw'})
+            return txs
+        } catch (error:any) {
+            throw new Error(error)
+        }
+    }
 }

@@ -42,6 +42,21 @@ class WithdrawService {
                 throw new Error(error)
         }
     }
+
+    public async getAll (user_id: string): Promise<Withdraw[] | Error> {
+        try {
+            //get wallet account no
+            const account_no = await new WalletDB().getAccountNo(user_id)
+
+            // query of a credit with account no
+            const withdrawTxs = await this.withdrawDB.getAllTx((account_no as string))
+
+            //return result
+            return (withdrawTxs as Withdraw[])
+        } catch (error:any) {
+            throw new Error(error)
+        }
+    }
 }
 
 export default WithdrawService

@@ -19,6 +19,7 @@ export default class WithdrawController implements Controller {
 
     private initializeRouter(){
         this.router.post(`${this.path}/withdraw`, authenticate, validationMiddleware(validate.create),  this.create)
+        this.router.get(`${this.path}/withdraw`, authenticate,  this.getAllDebitTransactions)
     }
 
     private create = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
@@ -29,6 +30,21 @@ export default class WithdrawController implements Controller {
             res.status(201).json({
                 status: 'success',
                 data: data,
+            })
+        } catch (error:any) {
+           next(new HttpException(error.message, error.statusCode))
+        }
+    }
+
+    private getAllDebitTransactions = async(req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
+        try {
+
+            const data = await this.withdrawService.getAll(req.user.id)
+
+            res.status(201).json({
+                status: 'success',
+                result: (data as Withdraw[]).length,
+                withdraw_transactions: data,
             })
         } catch (error:any) {
            next(new HttpException(error.message, error.statusCode))
