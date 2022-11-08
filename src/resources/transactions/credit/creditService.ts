@@ -1,7 +1,7 @@
-import { Event } from "@/utils/events";
 import { CreditDB } from "./creditPersistence";
 import { Credit } from "./creditInterface";
 import { WalletDB } from "@/resources/wallet/walletPersistence";
+import walletService from "@/resources/wallet/walletService";
 
 class CreditService {
     
@@ -23,7 +23,7 @@ class CreditService {
                 credit_wallet, 
             }
             const creditTx = await this.creditDB.create(transaction)
-            Event.publish('creditedTransaction', {amount: (creditTx as Credit).amount, credit_wallet})
+            walletService.increaseBalance({amount: (creditTx as Credit).amount, credit_wallet})
             return (creditTx as Credit)
             
         } catch (error:any) {

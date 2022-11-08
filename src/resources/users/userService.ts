@@ -2,9 +2,9 @@ import User from "./userInterface";
 import {createToken} from '@/utils/token'
 import bcrypt from 'bcryptjs'
 import UserDB from "./userPersistence";
-import { Event } from "@/utils/events";
 import Wallet from "../wallet/walletInterface";
 import { WalletDB } from "../wallet/walletPersistence";
+import walletService from "../wallet/walletService";
 
 class UserService {
 
@@ -23,7 +23,7 @@ class UserService {
             const newUser = await (this as any).userDB.insert(user)
             newUser.password = undefined
 
-            Event.publish('userCreated', newUser.id)
+            walletService.create(newUser.id)
 
             const token = createToken(newUser)
 

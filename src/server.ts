@@ -3,7 +3,6 @@ import 'module-alias/register';
 // import validateEnv from '@/utils/validateEnv';
 import App from './app';
 
-import WalletService from './resources/wallet/walletService';
 // controller imports below
 import UserController from './resources/users/userController';
 import CreditController from './resources/transactions/credit/creditController';
@@ -12,7 +11,6 @@ import TransferController from './resources/transactions/transfer/transferContro
 
 // validateEnv();
 
-new WalletService()
 const app = new App(
     [
         new UserController(),

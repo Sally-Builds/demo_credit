@@ -1,16 +1,8 @@
 import { WalletDB } from "./walletPersistence";
-import { Event } from "@/utils/events";
 import Wallet from "./walletInterface";
 
 class WalletService {
-    constructor() {
-        Event.subscribe('userCreated', this.create)
-        Event.subscribe('creditedTransaction', this.increaseBalance)
-        Event.subscribe('withdrawnTransaction', this.decreaseBalance)
-
-        Event.subscribe('transferredTransaction', this.decreaseBalance)
-        Event.subscribe('transferredTransaction', this.increaseBalance)
-    }
+    constructor() {}
 
 
     public async create (user_id: string, Wallet = WalletDB): Promise<string | Error> {
@@ -73,4 +65,7 @@ class WalletService {
     }
 }
 
-export default WalletService
+// export default WalletService
+
+const walletService = new WalletService()
+export default walletService

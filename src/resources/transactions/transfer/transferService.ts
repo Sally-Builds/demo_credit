@@ -1,8 +1,8 @@
-import { Event } from "@/utils/events";
 import { TransferDB } from "./transferPersistence";
 import Transfer from "./transferInterface";
 import { WalletDB } from "@/resources/wallet/walletPersistence";
 import HttpException from "@/utils/exceptions/httpExceptions";
+import walletService from "@/resources/wallet/walletService";
 
 class TransferService {
     
@@ -45,7 +45,8 @@ class TransferService {
                 credit_wallet: `${credit_wallet}`,
             }
             const transferTx = await this.transferDB.create(transaction)
-            Event.publish('transferredTransaction', {amount: (transferTx as Transfer).amount, debit_wallet, credit_wallet})
+            walletService.increaseBalance({amount: (transferTx as Transfer).amount, credit_wallet})
+            walletService.decreaseBalance({amount: (transferTx as Transfer).amount, debit_wallet})
             return (transferTx as Transfer)
             
         } catch (error:any) {

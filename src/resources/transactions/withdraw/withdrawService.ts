@@ -1,7 +1,7 @@
-import { Event } from "@/utils/events";
 import { WithdrawDB } from "./withdrawPersistence";
 import Withdraw from "./withdrawInterface";
 import { WalletDB } from "@/resources/wallet/walletPersistence";
+import walletService from "@/resources/wallet/walletService";
 
 class WithdrawService {
     
@@ -34,7 +34,7 @@ class WithdrawService {
                 bank_account_no,
             }
             const withdrawTX = await this.withdrawDB.create(transaction)
-            Event.publish('withdrawnTransaction', {amount: (withdrawTX as Withdraw).amount,  debit_wallet})
+            walletService.decreaseBalance({amount: (withdrawTX as Withdraw).amount,  debit_wallet})
             return (withdrawTX as Withdraw)
             
         } catch (error:any) {
