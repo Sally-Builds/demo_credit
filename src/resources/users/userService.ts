@@ -17,6 +17,10 @@ class UserService {
      */
     public async create (user: User): Promise<string | Error> {
         try {
+            //check if email exist
+            if(await this.userDB.get(user.email)) {
+                throw new Error('Email already exist!')
+            }
             //hash user password
             user.password = await bcrypt.hash(user.password, 10)
 

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction, Router } from "express";
 import UserService from "./userService";
+import userFactory from "./factory/userFactory";
 import Controller from "@/utils/interfaces/Controller.interface";
 import HttpException from "@/utils/exceptions/httpExceptions";
 import validationMiddleware from "@/middleware/validation.middleware";
@@ -30,7 +31,8 @@ class UserController implements Controller {
 
     private signup = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
         try {
-            const token = await this.userService.create(req.body)
+            // const token = await this.userService.create(req.body)
+            const token = await userFactory.signup(req.body)
 
             res.status(201).json({
                 status: 'success',
