@@ -24,7 +24,12 @@ class TransferService {
                 throw new Error("Account number does not exist")
             }
 
-            //check if 
+            //prevent user from crediting his own account
+            if(credit_wallet == debit_wallet) {
+                throw new Error('You cannot transfer to your account')
+            }
+
+            //check if balance is sufficient
             const previousBalance = await walletDB.getBalance(debit_wallet)
             if(amount > previousBalance) {
                 throw new Error('Insufficient funds!')
