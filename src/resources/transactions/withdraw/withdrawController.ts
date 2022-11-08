@@ -6,6 +6,7 @@ import validationMiddleware from "@/middleware/validation.middleware";
 import validate from './withdrawValidation'
 import authenticate from "@/middleware/authenticate.middleware";
 import Withdraw from "./withdrawInterface";
+import WithdrawDTO from "./withdrawDTO";
 
 export default class WithdrawController implements Controller {
     public path = '/transactions'
@@ -27,9 +28,19 @@ export default class WithdrawController implements Controller {
             const {amount, bank_name, bank_account_no} = (req.body as Withdraw)
             const data = await this.withdrawService.create(amount, bank_name, bank_account_no, req.user.id)
 
+            const withdrawDTO:WithdrawDTO = {
+                date: (data as Withdraw).date,
+                reference_id: (data as Withdraw).reference_id, 
+                transaction_type: (data as Withdraw).transaction_type,
+                debit_wallet: (data as Withdraw).debit_wallet,
+                amount: (data as Withdraw).amount,
+                bank_account_no: (data as Withdraw).bank_account_no,
+                bank_name: (data as Withdraw).bank_name
+            }
+
             res.status(201).json({
                 status: 'success',
-                data: data,
+                data: withdrawDTO,
             })
         } catch (error:any) {
            next(new HttpException(error.message, error.statusCode))
@@ -41,10 +52,22 @@ export default class WithdrawController implements Controller {
 
             const data = await this.withdrawService.getAll(req.user.id)
 
+            const withdrawDTO:WithdrawDTO[] = (data as WithdrawDTO[]).map((data:WithdrawDTO) => {
+                return {
+                    date: data.date,
+                    reference_id: data.reference_id, 
+                    transaction_type: data.transaction_type,
+                    debit_wallet: data.debit_wallet,
+                    amount: data.amount,
+                    bank_account_no: data.bank_account_no,
+                    bank_name: data.bank_name
+                }
+            })
+
             res.status(201).json({
                 status: 'success',
-                result: (data as Withdraw[]).length,
-                withdraw_transactions: data,
+                result: withdrawDTO.length,
+                withdraw_transactions: withdrawDTO,
             })
         } catch (error:any) {
            next(new HttpException(error.message, error.statusCode))
