@@ -6,6 +6,7 @@ import validationMiddleware from "@/middleware/validation.middleware";
 import validate from './creditValidation'
 import authenticate from "@/middleware/authenticate.middleware";
 import { Credit } from "./creditInterface";
+import CreditDTO from "./creditDTO";
 
 export default class CreditController implements Controller {
     public path = '/transactions'
@@ -27,9 +28,17 @@ export default class CreditController implements Controller {
         try {
             const data = await this.creditService.create(req.body.amount, req.user.id)
 
+            const creditDTO:CreditDTO = {
+                date: (data as Credit).date,
+                reference_id: (data as Credit).reference_id, 
+                transaction_type: (data as Credit).transaction_type,
+                credit_wallet: (data as Credit).credit_wallet,
+                amount: (data as Credit).amount,
+            }
+
             res.status(201).json({
                 status: 'success',
-                data: data,
+                data: creditDTO,
             })
         } catch (error:any) {
            next(new HttpException(error.message, error.statusCode))
@@ -41,10 +50,20 @@ export default class CreditController implements Controller {
 
             const data = await this.creditService.getAll(req.user.id)
 
+            const creditDTO:CreditDTO[] = (data as Credit[]).map((data:Credit) => {
+                return {
+                    date: data.date,
+                    reference_id: data.reference_id, 
+                    transaction_type: data.transaction_type,
+                    credit_wallet: data.credit_wallet,
+                    amount: data.amount,
+                }
+            })
+
             res.status(201).json({
                 status: 'success',
                 result: (data as Credit[]).length,
-                credit_transactions: data,
+                credit_transactions: creditDTO,
             })
         } catch (error:any) {
            next(new HttpException(error.message, error.statusCode))
