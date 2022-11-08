@@ -5,6 +5,8 @@ import HttpException from "@/utils/exceptions/httpExceptions";
 import validationMiddleware from "@/middleware/validation.middleware";
 import validate from './userValidation'
 import authenticate from "@/middleware/authenticate.middleware";
+import UserDTO from "./userDTO";
+import Wallet from "../wallet/walletInterface";
 
 class UserController implements Controller {
     public path = '/users'
@@ -55,12 +57,20 @@ class UserController implements Controller {
     private getMe = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
         try {
             const wallet = await this.userService.getAccount(req.user.id)
-            console.log(req.user)
-            const account = {...req.user, wallet}
+
+            const account:UserDTO = {
+                email: req.user.email,
+                name: req.user.name,
+                role: req.user.role,
+                wallet: {
+                    balance: (wallet as Wallet).balance,
+                    account_no: (wallet as Wallet).account_no
+                }
+            }
 
             res.status(200).json({
                 status: 'success',
-                account,
+                account: (account as UserDTO),
             })
         } catch (error:any) {
             next(new HttpException(error.message, error.statusCode))
