@@ -20,4 +20,15 @@ export class TransferDB {
             throw new Error(error)
         }
     }
+
+    async getAllTx(account_no: string): Promise<Transfer[] | void> {
+        try {
+            const txs = await db('transactions')
+            .where({debit_wallet:account_no, transaction_type: 'transfer'})
+            .orWhere({credit_wallet:account_no, transaction_type: 'transfer'})
+            return txs
+        } catch (error:any) {
+            throw new Error(error)
+        }
+    }
 }

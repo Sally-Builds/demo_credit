@@ -47,6 +47,21 @@ class TransferService {
                 throw new Error(error)
         }
     }
+
+    public async getAll (user_id: string): Promise<Transfer[] | Error> {
+        try {
+            //get wallet account no
+            const account_no = await new WalletDB().getAccountNo(user_id)
+
+            // query of a credit with account no
+            const withdrawTxs = await this.transferDB.getAllTx((account_no as string))
+
+            //return result
+            return (withdrawTxs as Transfer[])
+        } catch (error:any) {
+            throw new Error(error)
+        }
+    }
 }
 
 export default TransferService
