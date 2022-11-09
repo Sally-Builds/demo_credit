@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction, Router } from "express";
-import TransferService from "./transferService";
 import Controller from "@/utils/interfaces/Controller.interface";
 import HttpException from "@/utils/exceptions/httpExceptions";
 import validationMiddleware from "@/middleware/validation.middleware";
@@ -7,12 +6,11 @@ import validate from './transferValidation'
 import authenticate from "@/middleware/authenticate.middleware";
 import Transfer from "./transferInterface";
 import TransferDTO from "./transferDTO";
+import transferFactory from "./factory/transferFactory";
 
 export default class TransferController implements Controller {
     public path = '/transactions'
     public router = Router()
-
-    private transferService = new TransferService()
 
     constructor(){
         this.initializeRouter()
@@ -26,7 +24,7 @@ export default class TransferController implements Controller {
     private create = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
         try {
             const {amount, credit_wallet} = (req.body as Transfer)
-            const data = await this.transferService.create(amount, credit_wallet, req.user.id)
+            const data = await transferFactory.create({amount, credit_wallet, user_id:req.user.id})
 
             const transferDTO:TransferDTO = {
                 date: (data as Transfer).date,
@@ -49,7 +47,7 @@ export default class TransferController implements Controller {
     private getAllTransferTransactions = async(req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
         try {
 
-            const data = await this.transferService.getAll(req.user.id)
+            const data = await transferFactory.getAll(req.user.id)
 
             const transferDTOs:TransferDTO[] = (data as Transfer[]).map((data:Transfer) => {
                 return {
