@@ -4,10 +4,10 @@
   "description": "Lendsqr Backend Engineering assessment",
   "main": "index.js",
   "scripts": {
-    "postinstall": "rimraf dist && tsc -p tsconfig-build.json",
+    "postinstall": "rimraf dist && tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
-    "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "build": "rimraf dist && tsc -p tsconfig.json",
     "build:watch": "npm run build -- --watch",
     "test": "jest",
     "test:stage": "npm run test -- --findRelatedTests",

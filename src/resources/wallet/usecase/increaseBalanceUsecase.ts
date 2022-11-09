@@ -2,7 +2,8 @@
 import { GetBalanceRepository } from '../interfaces/repository/getBalanceRepository'
 import { UpdateBalanceRepository } from '../interfaces/repository/updateBalanceRepository'
 import { IncreaseBalanceInterface } from '../interfaces/increaseBalanceInterface'
-import HttpException from '../../../../src/utils/exceptions/httpExceptions'
+// import HttpException from '../../../../src/utils/exceptions/httpExceptions'
+import HttpException from '@/utils/exceptions/httpExceptions'
 
 export default class IncreaseBalanceUsecase implements IncreaseBalanceInterface {
   constructor (
