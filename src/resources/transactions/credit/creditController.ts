@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction, Router } from "express";
-import CreditService from "./creditService";
 import Controller from "@/utils/interfaces/Controller.interface";
 import HttpException from "@/utils/exceptions/httpExceptions";
 import validationMiddleware from "@/middleware/validation.middleware";
@@ -8,11 +7,11 @@ import authenticate from "@/middleware/authenticate.middleware";
 import { Credit } from "./creditInterface";
 import CreditDTO from "./creditDTO";
 
+import creditFactory from "./factory/creditFactory";
+
 export default class CreditController implements Controller {
     public path = '/transactions'
     public router = Router()
-
-    private creditService = new CreditService()
 
     constructor(){
         this.initializeRouter()
@@ -26,7 +25,7 @@ export default class CreditController implements Controller {
 
     private create = async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
         try {
-            const data = await this.creditService.create(req.body.amount, req.user.id)
+            const data = await creditFactory.create({amount: req.body.amount, user_id:req.user.id})
 
             const creditDTO:CreditDTO = {
                 date: (data as Credit).date,
@@ -48,7 +47,8 @@ export default class CreditController implements Controller {
     private getAllCreditTransactions = async(req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
         try {
 
-            const data = await this.creditService.getAll(req.user.id)
+            // const data = await this.creditService.getAll(req.user.id)
+            const data = await creditFactory.getAll(req.user.id)
 
             const creditDTO:CreditDTO[] = (data as Credit[]).map((data:Credit) => {
                 return {
