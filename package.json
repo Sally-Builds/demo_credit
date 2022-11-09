@@ -4,6 +4,7 @@
   "description": "Lendsqr Backend Engineering assessment",
   "main": "index.js",
   "scripts": {
+    "postinstall": "tsc",
     "start": "node dist/server.js",
     "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
     "build": "rimraf dist && tsc -p tsconfig-build.json",
