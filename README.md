@@ -2,8 +2,42 @@
 A demo API for Lendsqr assessment
 
 
+## Demo Credit - Backend Challenge
+
+Demo credit API built with Typescript and MySQL(knex), using clean Architecture.
+
+This API allows users to create an account, fund the account, withdraw from the account and transfer to another account. It has an authentication system that supports login and signup, with the help of JWT.
+
+##  **Architecture**
+The application structure is divided into 3 main layers - resources, middleware, utils
+
+### 1)  **Resources -**  
+This Layer is the core of our application. In this layer lies the business logic of our application. To keep the application simple 3 resources where used - User,
+Transaction, Wallet. Each Resource contains a consistent folder structure of names - factory, interfaces, repository and usecase.
+
+*   usecase: This folder contains a series of files which denotes every usecase
+    that can be exhausted on the resource - eg. <br>
+    *   User resource usecase to - Signup, Login, ForgotPassword,         ResetPassword, Logout etc
+    *   Wallet resource usecase to - createwallet, increaseBalance, decreaseBalance etc<br />
+    Following the clean architecture guide we isolate this usecases from third party libraries and rather use interface and not the real imlementaion
+    of the libraries. From the code base this can be seen in the User resource signup and login usecase where we needed to use an external library
+    bcrypt to hash and verify the password but rather interface or abstract class was used as a stub.
+
+*   interface: This folder contains all the neccessary interfaces needed for the resource usecases.
+*   repository: This is where the actual call to the db is made for data access.
+*   factory: This is where we build all our usecases together into one piece to be called by the controller. 
+
+### 2)   **Middleware -**
+This contains all the necessary middleware functions (not third party libraries) used in our express application. ie. methods we want to run before the request gets to the controllers. Error Handling, authenticate middleware are all in this folder
+
+### 3)  **Utils -**
+This is where all other helper or global functions are initiated eg - Initializing the db, validating the env variables etc
+
+
 ## API ERD
-![Demo credit ERD](Demo_credit_wallet.jpg "lendsqr")
+<p align="center">
+  <img src="Demo_credit_wallet.jpg" alt="ERD"/>
+</p>
 
 ## Notable Technologies used
 *   Typescript
@@ -14,10 +48,10 @@ A demo API for Lendsqr assessment
 *   Jest
 
 ## Live demo
- [heroku demo server](https://uzoagulu-joshua.lendsqr-be-test.herokuapp.com/) **NB: Expires 28 november 2022**
+ [heroku demo server](https://joshua-lendsqr-be-test.herokuapp.com/) **NB: Expires 28 november 2022**
 
 ## Postman API documentation
-[Postman docs link](https://www.postman.com/s255y/workspace/lendsqr-assessment/collection/6718885-c924251b-ca3c-47cf-8119-4f4e6c247237?action=share&creator=6718885)
+[Postman docs link](https://www.postman.com/s255y/workspace/lendsqr-assessment/collection/6718885-454d8e1a-9336-48bb-bc92-0a97b0a8db57?action=share&creator=6718885)
 
 
 ## API endpoints documentation Overview
@@ -222,3 +256,9 @@ A demo API for Lendsqr assessment
             ]
         }
     ```
+
+## Improvements and Considerations
+
+*   To make the application less tightly coupled and make each resources isolated we could use the publish-observer pattern/ Events handlers where each resources subscribes to an event and listens to perform and action when needed.  
+
+*   Also the Design of the wallet can be improved extensively as this one was designed in other to accommodate time for development
