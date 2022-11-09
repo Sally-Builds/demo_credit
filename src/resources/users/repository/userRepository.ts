@@ -28,4 +28,13 @@ export default class UserRepository implements GetUserByEmailRepository, CreateU
             throw new HttpException(`${duplicateField} already exist`, 400)
         }
     }
+
+    public async getById(id: string): Promise<User | void> {
+        try {
+            const user = await db('users').whereRaw('id = ?', id)
+            return user[0];
+        } catch (error) {
+            null
+        }
+    }
 }

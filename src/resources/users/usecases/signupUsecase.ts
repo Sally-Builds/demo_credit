@@ -5,6 +5,7 @@ import HttpException from "@/utils/exceptions/httpExceptions";
 import { GetUserByEmailRepository } from "../interfaces/repository/getUserByEmailRepository";
 import { CreateUserRepository } from "../interfaces/repository/createUserRepository";
 import User from "../userInterface";
+import CreateWalletUsecase from "@/resources/wallet/usecase/createWalletUsecase";
 
 
 export default class SignupUsecase implements SignupInterface {
@@ -12,7 +13,8 @@ export default class SignupUsecase implements SignupInterface {
         private readonly passwordHash: PasswordHashGenerate,
         private readonly jwtGenerate: JwtGenerate,
         private readonly getUserByEmailRepository: GetUserByEmailRepository,
-        private readonly createUserRepository: CreateUserRepository
+        private readonly createUserRepository: CreateUserRepository,
+        private readonly createWalletUsecase: CreateWalletUsecase
     ){}
 
     async execute(user: SignupInterface.Request): Promise<SignupInterface.Response> {
@@ -30,10 +32,13 @@ export default class SignupUsecase implements SignupInterface {
 
 
         //hash password
-        await this.passwordHash.hash(user.password)
+        user.password = await this.passwordHash.hash(user.password)
 
         //store user
         const newUser = await this.createUserRepository.createUser(user)
+
+        //create wallet for user
+        await this.createWalletUsecase.execute((newUser as User).id)
 
         //generate token
         const token = this.jwtGenerate.sign((newUser as User).id)
