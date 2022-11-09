@@ -1,9 +1,7 @@
 import { WalletDB } from "./walletPersistence";
-import Wallet from "./walletInterface";
 
 class WalletService {
     constructor() {}
-
 
     public async create (user_id: string, Wallet = WalletDB): Promise<string | Error> {
         try {  
@@ -34,7 +32,6 @@ class WalletService {
 
             //do the math
             const newBalance = (previousBalance as number) + data.amount
-            console.log(newBalance)
 
             //update balance
             await walletDB.updateBalance(data.credit_wallet, newBalance)
@@ -53,7 +50,6 @@ class WalletService {
 
             //do the math
             const newBalance = (previousBalance as number) - data.amount
-            console.log(newBalance)
 
             //update balance
             await walletDB.updateBalance(data.debit_wallet, newBalance)

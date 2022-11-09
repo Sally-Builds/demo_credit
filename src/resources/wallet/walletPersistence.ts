@@ -9,10 +9,6 @@ export class WalletDB {
     async getAccountNo(user_id: string): Promise<string | void> {
         try {
             const wallet_id = await db('wallets').where('user_id', user_id).select('account_no')
-
-            // if(wallet_id.length <= 0) {
-            //     throw new Error('Incorrect account number')
-            // }
             return wallet_id[0].account_no
         } catch (error:any) {
             console.log(error)
