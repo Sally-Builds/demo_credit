@@ -6,7 +6,7 @@ const createUsersTable = async () => {
 
     if (!exists) {
       await db.schema.createTable('users', (table) => {
-        table.uuid('id').defaultTo(db.schema.raw(`(UUID()) ${Date.now()}`))
+        table.uuid('id')
         table.string('name')
         table.string('email').unique()
         table.string('password')
@@ -26,7 +26,7 @@ const createWalletsTable = async () => {
 
     if (!exists) {
       await db.schema.createTable('wallets', (table) => {
-        table.uuid('id').defaultTo(db.schema.raw('(UUID())'))
+        table.uuid('id')
         table.uuid('user_id')
         table.float('balance')
         table.string('account_no').unique()
@@ -45,7 +45,7 @@ const createTransactionTable = async () => {
 
     if (!exists) {
       await db.schema.createTable('transactions', (table) => {
-        table.uuid('id').defaultTo(db.schema.raw('(UUID())'))
+        table.uuid('id')
         table.string('reference_id')
         table.date('date')
         table.float('amount')

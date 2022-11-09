@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import { GetUserByEmailRepository } from '../interfaces/repository/getUserByEmailRepository'
 import { CreateUserRepository } from '../interfaces/repository/createUserRepository'
 import db from '@/utils/dbConfig/dbConnection'
@@ -16,7 +17,7 @@ export default class UserRepository implements GetUserByEmailRepository, CreateU
 
   async createUser (user: CreateUserRepository.Request): Promise<CreateUserRepository.Response> {
     try {
-      await db('users').insert(user)
+      await db('users').insert({ ...user, id: uuidv4() })
       const newUser = await this.getUserByEmail(user.email)
       return (newUser as User)
     } catch (error:any) {
