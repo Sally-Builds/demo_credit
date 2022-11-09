@@ -1,3 +1,4 @@
+import path from 'path'
 import express, { Application } from 'express'
 import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
@@ -34,12 +35,10 @@ class App {
   }
 
   private initializeControllers (controllers: Controller[]) {
-    this.app.use('/', (req, res) => {
-      res.send('Demo Credit API')
-    })
     controllers.map((controller: Controller) => {
       this.app.use('/api', controller.router)
     })
+    this.app.get(/.*/, (req, res) => res.send('Welcome to Demo Credit(Lendsqr)'))
   }
 
   private intializeErrorHandler () {

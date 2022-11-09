@@ -6,7 +6,7 @@ const createUsersTable = async () => {
 
     if (!exists) {
       await db.schema.createTable('users', (table) => {
-        table.uuid('id').primary().defaultTo(db.schema.raw('(UUID())'))
+        table.uuid('id').defaultTo(db.schema.raw(`(UUID()) ${Date.now()}`))
         table.string('name')
         table.string('email').unique()
         table.string('password')
@@ -26,11 +26,10 @@ const createWalletsTable = async () => {
 
     if (!exists) {
       await db.schema.createTable('wallets', (table) => {
-        table.uuid('id').primary().defaultTo(db.schema.raw('(UUID())'))
+        table.uuid('id').defaultTo(db.schema.raw('(UUID())'))
         table.uuid('user_id')
         table.float('balance')
         table.string('account_no').unique()
-        table.foreign('user_id').references('users.id')
       }).then(() => {
         console.log('Wallets table created successfully')
       })
@@ -46,7 +45,7 @@ const createTransactionTable = async () => {
 
     if (!exists) {
       await db.schema.createTable('transactions', (table) => {
-        table.uuid('id').primary().defaultTo(db.schema.raw('(UUID())'))
+        table.uuid('id').defaultTo(db.schema.raw('(UUID())'))
         table.string('reference_id')
         table.date('date')
         table.float('amount')
@@ -55,9 +54,6 @@ const createTransactionTable = async () => {
         table.uuid('credit_wallet').nullable()
         table.uuid('debit_wallet').nullable()
         table.string('bank_account_no').nullable()
-
-        table.foreign('credit_wallet').references('wallets.account_no')
-        table.foreign('debit_wallet').references('wallets.account_no')
       }).then(() => {
         console.log('Transactions table created successfully')
       })
