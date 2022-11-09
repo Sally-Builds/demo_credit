@@ -7,9 +7,9 @@ let config: Knex.Config = {
     client: 'mysql2',
     connection: {
         host: 'localhost',
-        user: 'root',
-        password: 'wgke3mf12345',
-        database: 'node_app'
+        user: process.env.DATABASE_USER,
+        password: process.env.DATABASE_PASSWORD,
+        database: process.env.DATABASE_NAME
     },
 }
 

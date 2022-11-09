@@ -1,4 +1,3 @@
-import fs from 'fs'
 import express, { Application } from 'express';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';

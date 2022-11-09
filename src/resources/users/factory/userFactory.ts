@@ -25,7 +25,7 @@ class UserFactory {
          this.userDB = new UserRepository()
          this.walletDB = new WalletRepository()
          this.bcryptAdapter = new BcryptAdapter(12)
-         this.jwtAdapter = new JwtAdapter('secret', '30d')
+         this.jwtAdapter = new JwtAdapter((process.env.JWT_SECRET as string), (process.env.JWT_EXPIRES_IN as string))
          this.SignupUsecase = new SignupUsecase(this.bcryptAdapter, this.jwtAdapter, this.userDB, this.userDB, new CreateWalletUsecase(this.walletDB))
         this.LoginUsecase = new LoginUsecase(this.jwtAdapter, this.userDB, this.bcryptAdapter)
         this.GetMeUsecase = new GetMeUsecase(this.walletDB, this.walletDB)

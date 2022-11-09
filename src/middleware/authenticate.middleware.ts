@@ -13,7 +13,7 @@ async function authenticate (req:Request, res:Response, next:NextFunction): Prom
     }
     const accessToken = bearer.split('Bearer ')[1].trim()
     try {
-        const payload: Token | jwt.JsonWebTokenError = await new JwtAdapter('secret', '30d').verify(accessToken)
+        const payload: Token | jwt.JsonWebTokenError = await new JwtAdapter((process.env.JWT_SECRET as string), (process.env.JWT_EXPIRES_IN as string)).verify(accessToken)
 
 
         if(payload instanceof jwt.JsonWebTokenError) {
