@@ -18,13 +18,16 @@ Transaction, Wallet. Each Resource contains a consistent folder structure of nam
 *   usecase: This folder contains a series of files which denotes every usecase
     that can be exhausted on the resource - eg. <br>
     *   User resource usecase to - Signup, Login, ForgotPassword,         ResetPassword, Logout etc
+    
     *   Wallet resource usecase to - createwallet, increaseBalance, decreaseBalance etc<br />
     Following the clean architecture guide we isolate this usecases from third party libraries and rather use interface and not the real imlementaion
     of the libraries. From the code base this can be seen in the User resource signup and login usecase where we needed to use an external library
     bcrypt to hash and verify the password but rather interface or abstract class was used as a stub.
 
 *   interface: This folder contains all the neccessary interfaces needed for the resource usecases.
+
 *   repository: This is where the actual call to the db is made for data access.
+
 *   factory: This is where we build all our usecases together into one piece to be called by the controller. 
 
 ### 2)   **Middleware -**
@@ -259,6 +262,6 @@ This is where all other helper or global functions are initiated eg - Initializi
 
 ## Improvements and Considerations
 
-*   To make the application less tightly coupled and make each resources isolated we could use the publish-observer pattern/ Events handlers where each resources subscribes to an event and listens to perform and action when needed.  
+*   To make the application less tightly coupled to make each resource isolated we could use the publish-observer pattern/ Events handlers where each resource subscribes to an event and listens to perform an action when needed.  
 
-*   Also the Design of the wallet can be improved extensively as this one was designed in other to accommodate time for development
+*   Also the Design of the wallet can be improved extensively as this one was designed in other to accommodate time for development.
