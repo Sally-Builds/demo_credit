@@ -1,6 +1,9 @@
 # Demo Credit(Lendsqr)
 A demo API for Lendsqr assessment
 
+![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Sally-Builds/3c458ac99287c83e49a3595cfb099992/raw/demo_credit__pull_##.json)
+
+
 
 ## Demo Credit - Backend Challenge
 
