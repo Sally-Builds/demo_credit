@@ -1,7 +1,8 @@
 # Demo Credit(Lendsqr)
 A demo API for Lendsqr assessment
 
-![Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Sally-Builds/3c458ac99287c83e49a3595cfb099992/raw/demo_credit__pull_##.json)
+[![CI](https://github.com/Sally-Builds/demo_credit/actions/workflows/ci.yml/badge.svg)](https://github.com/Sally-Builds/demo_credit/actions/workflows/ci.yml)
+[![Coverage Status](https://coveralls.io/repos/github/Sally-Builds/demo_credit/badge.svg?branch=main)](https://coveralls.io/github/Sally-Builds/demo_credit?branch=main)
 
 
 
