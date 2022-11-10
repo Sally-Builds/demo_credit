@@ -1,14 +1,19 @@
+/* eslint-disable eqeqeq */
 import { GetBalanceRepository } from '../../src/resources/wallet/interfaces/repository/getBalanceRepository'
 import { UpdateBalanceRepository } from '../../src/resources/wallet/interfaces/repository/updateBalanceRepository'
+import Wallet from '../../src/resources/wallet/walletInterface'
 import HttpException from '../../src/utils/exceptions/httpExceptions'
-import fakeWallet from './walletFakeData'
+import walletMockDB from './mockData/walletMockDB'
 
 export class GetBalanceRepoStub implements GetBalanceRepository {
   async getBalance (account_no: string): Promise<GetBalanceRepository.Response> {
     try {
-      const balance = fakeWallet.balance
-      console.log(`balance fetched with value ${balance}`)
-      return (balance as number)
+      const wallet = walletMockDB.find((e:Wallet) => e.account_no == account_no)
+      if (!wallet) {
+        throw new HttpException('something went wrong', 500)
+      }
+      console.log(`balance fetched with value ${wallet.balance}`)
+      return ((wallet.balance) as number)
     } catch (error:any) {
       throw new HttpException(error.message, error.statusCode)
     }
@@ -18,9 +23,12 @@ export class GetBalanceRepoStub implements GetBalanceRepository {
 export class UpdateBalanceRepoStub implements UpdateBalanceRepository {
   async updateBalance (account_no_and_new_balance: UpdateBalanceRepository.Request): Promise<UpdateBalanceRepository.Response> {
     try {
-      fakeWallet.balance = account_no_and_new_balance.new_balance
-      console.log(`balance updated with new value ${fakeWallet.balance}`)
-      return
+      const wallet = walletMockDB.find((e:Wallet) => e.account_no == account_no_and_new_balance.account_no)
+      if (!wallet) {
+        throw new HttpException('something went wrong', 500)
+      }
+      wallet.balance = account_no_and_new_balance.new_balance
+      console.log(`balance updated from new value ${wallet.balance}`)
     } catch (error:any) {
       throw new HttpException(error.message, error.statusCode)
     }
