@@ -2,7 +2,7 @@
 A demo API for Lendsqr assessment
 
 [![CI](https://github.com/Sally-Builds/demo_credit/actions/workflows/ci.yml/badge.svg)](https://github.com/Sally-Builds/demo_credit/actions/workflows/ci.yml)
-[![Coverage Status](https://coveralls.io/repos/github/Sally-Builds/demo_credit/badge.svg?branch=main)](https://coveralls.io/github/Sally-Builds/demo_credit?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/Sally-Builds/demo_credit/badge.svg?branch=main)](https://coveralls.io/github/Sally-Builds/demo_credit?branch=main&kill_cache=1)
 
 
 
