@@ -17,25 +17,26 @@ The application structure is divided into 3 main layers - resources, middleware,
 
 ### 1)  **Resources -**  
 This Layer is the core of our application. In this layer lies the business logic of our application. To keep the application simple 3 resources where used - User,
-Transaction, Wallet. Each Resource contains a consistent folder structure of names - factory, interfaces, repository and usecase.
+Transaction, Wallet. Each resource contains a consistent folder structure of names - factory, interfaces, repository and usecase.
 
 *   usecase: This folder contains a series of files which denotes every usecase
     that can be exhausted on the resource - eg. <br>
     *   User resource usecase to - Signup, Login, ForgotPassword,         ResetPassword, Logout etc
     
     *   Wallet resource usecase to - createwallet, increaseBalance, decreaseBalance etc<br />
+    
     Following the clean architecture guide we isolate this usecases from third party libraries and rather use interface and not the real imlementaion
-    of the libraries. From the code base this can be seen in the User resource signup and login usecase where we needed to use an external library
+    of the libraries. From the code base this can be seen in the User resource signup and login usecase where I needed to use an external library
     bcrypt to hash and verify the password but rather interface or abstract class was used as a stub.
 
 *   interface: This folder contains all the neccessary interfaces needed for the resource usecases.
 
 *   repository: This is where the actual call to the db is made for data access.
 
-*   factory: This is where we build all our usecases together into one piece to be called by the controller. 
+*   factory: This is where I build all our usecases together into one piece to be called by the controller. 
 
 ### 2)   **Middleware -**
-This contains all the necessary middleware functions (not third party libraries) used in our express application. ie. methods we want to run before the request gets to the controllers. Error Handling, authenticate middleware are all in this folder
+This contains all the necessary middleware functions (not third party libraries) used in our express application. ie. methods I want to run before the request gets to the controllers. Error Handling, authenticate middleware are all in this folder
 
 ### 3)  **Utils -**
 This is where all other helper or global functions are initiated eg - Initializing the db, validating the env variables etc
