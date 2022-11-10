@@ -21,7 +21,6 @@ const makeSut = (): SystemUnderTest => {
 }
 
 afterEach(() => {
-  // restore the spy created with spyOn
   jest.restoreAllMocks()
 })
 
@@ -41,7 +40,7 @@ describe('Should increase Wallet Balance', () => {
   })
 })
 
-describe('Increase Balance should throw an Error', () => {
+describe('Increase Wallet Balance use-case should throw an Error', () => {
   it('Get balance repository should throw an Error', async () => {
     const { sut } = makeSut()
     const val = async () => { await sut.execute({ credit_wallet: 'invalid_id', amount: 10 }) }

@@ -22,15 +22,9 @@ export class GetBalanceRepoStub implements GetBalanceRepository {
 
 export class UpdateBalanceRepoStub implements UpdateBalanceRepository {
   async updateBalance (account_no_and_new_balance: UpdateBalanceRepository.Request): Promise<UpdateBalanceRepository.Response> {
-    try {
-      const wallet = walletMockDB.find((e:Wallet) => e.account_no == account_no_and_new_balance.account_no)
-      if (!wallet) {
-        throw new HttpException('something went wrong', 500)
-      }
+    const wallet = walletMockDB.find((e:Wallet) => e.account_no == account_no_and_new_balance.account_no)
+    if (typeof wallet == 'object') {
       wallet.balance = account_no_and_new_balance.new_balance
-      console.log(`balance updated from new value ${wallet.balance}`)
-    } catch (error:any) {
-      throw new HttpException(error.message, error.statusCode)
     }
   }
 }
