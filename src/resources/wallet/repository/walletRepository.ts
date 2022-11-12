@@ -32,7 +32,7 @@ export default class WalletRepository implements
 
   async updateBalance (account_no_and_new_balance: UpdateBalanceRepository.Request): Promise<UpdateBalanceRepository.Response> {
     try {
-      const data = await db('wallets')
+      await db('wallets')
         .where({ account_no: account_no_and_new_balance.account_no })
         .update({ balance: account_no_and_new_balance.new_balance })
     } catch (error:any) {
