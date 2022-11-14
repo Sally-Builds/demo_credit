@@ -9,6 +9,7 @@ describe('decrease wallet balance', () => {
   const usecasePayload = { debit_wallet: '1234567890', amount: 200 }
 
   beforeEach(() => {
+    jest.useFakeTimers()
     walletRepo.getBalance = jest.fn((id:string) => Promise.resolve(500))
     walletRepo.updateBalance = jest.fn(val => Promise.resolve())
   })

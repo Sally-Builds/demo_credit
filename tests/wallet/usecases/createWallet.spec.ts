@@ -7,6 +7,7 @@ describe('Create wallet usecase', () => {
   const walletRepo = new WalletRepository()
   const createWallet = new CreateWalletUsecase(walletRepo)
   beforeEach(() => {
+    jest.useFakeTimers()
     walletRepo.createWallet = jest.fn((walletCred: Wallet) => Promise.resolve())
   })
 
