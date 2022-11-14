@@ -3,32 +3,32 @@ import { GetBalanceRepository } from '../../../src/resources/wallet/interfaces/r
 import { UpdateBalanceRepository } from '../../../src/resources/wallet/interfaces/repository/updateBalanceRepository'
 import { GetAccountNoRepository } from '../../../src/resources/wallet/interfaces/repository/getAccountNoRepository'
 import { GetWalletRepository } from '../../../src/resources/wallet/interfaces/repository/getWalletRepository'
-// import { CreateWalletRepository } from '../../../src/resources/wallet/interfaces/repository/createWalletRepository'
+import { CreateWalletRepository } from '../../../src/resources/wallet/interfaces/repository/createWalletRepository'
 import Wallet from '../../../src/resources/wallet/walletInterface'
 import HttpException from '../../../src/utils/exceptions/httpExceptions'
 import walletMockDB from '../db/walletMockDB'
 
-// export class CreateWalletRepoStub implements CreateWalletRepository {
-//   async createWallet (walletCred: CreateWalletRepository.Request): Promise<CreateWalletRepository.Response> {
-//     try {
-//       await walletMockDB.push({ ...walletCred, id: walletMockDB.length + 1 })
-//     } catch (error) {
-//       throw new HttpException('Oops!!! something went wrong', 500)
-//     }
-//   }
-// }
+export class CreateWalletRepoStub implements CreateWalletRepository {
+  async createWallet (walletCred: CreateWalletRepository.Request): Promise<CreateWalletRepository.Response> {
+    try {
+      await walletMockDB.push({ ...walletCred, id: walletMockDB.length + 1 })
+    } catch (error) {
+      throw new HttpException('Oops!!! something went wrong', 500)
+    }
+  }
+}
 
-// export class GetWalletRepoStub implements GetWalletRepository {
-//   async getWallet (account_no: string): Promise<GetWalletRepository.Response> {
-//     try {
-//       const result = await walletMockDB.find(e => e.account_no === account_no)
-//       if (!result) throw new HttpException('Oops!!! something went wrong', 500)
-//       return result[0]
-//     } catch (error:any) {
-//       throw new HttpException('Oops!!! something went wrong', 500)
-//     }
-//   }
-// }
+export class GetWalletRepoStub implements GetWalletRepository {
+  async getWallet (account_no: string): Promise<GetWalletRepository.Response> {
+    try {
+      const result = await walletMockDB.find(e => e.account_no === account_no)
+      if (!result) throw new HttpException('Oops!!! something went wrong', 500)
+      return result[0]
+    } catch (error:any) {
+      throw new HttpException('Oops!!! something went wrong', 500)
+    }
+  }
+}
 
 export class GetAccountNoRepoStub implements GetAccountNoRepository {
   async getAccountNo (user_id: string): Promise<GetAccountNoRepository.Response> {
